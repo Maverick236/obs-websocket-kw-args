@@ -14,6 +14,8 @@ obs_websocket:
   enabled: true
   host: 172.25.224.1
   port: 4455
-  password: "Almave7"
+  # For security, the real password is not stored here.
+  # Set the OBS password in your environment as OBS_PASSWORD or leave blank.
+  password: ""  # DO NOT COMMIT secrets — use env var OBS_PASSWORD
   # text source name in OBS to update when using websocket
   source: System Status

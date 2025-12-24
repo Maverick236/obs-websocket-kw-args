@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.Python
+
+# Virtual envs
+venv/
+.venv/
+
+# Env files
+.env
+config/system.yaml
+
+# Logs
+logs/
+
+# IDE
+.vscode/
