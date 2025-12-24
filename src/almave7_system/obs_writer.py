@@ -70,8 +70,10 @@ def _ensure_ws_connected() -> bool:
         return False
     if _WS_CLIENT is not None:
         return True
-    try:
-        _WS_CLIENT = obsws(_WS_CONFIG["host"], int(_WS_CONFIG["port"]), _WS_CONFIG["password"])
+        try:
+            # prefer explicit config password, fall back to environment variable OBS_PASSWORD
+            password = _WS_CONFIG.get("password") or os.environ.get("OBS_PASSWORD", "")
+            _WS_CLIENT = obsws(_WS_CONFIG["host"], int(_WS_CONFIG["port"]), password)
         _WS_CLIENT.connect()
         return True
     except Exception:

@@ -11,10 +11,10 @@ This document describes how to configure OBS WebSocket (obs-websocket) for use w
 1. Open OBS.
 2. Tools → WebSockets Server Settings (or obs-websocket Server Settings).
 3. Configure:
-   - Enable WebSocket server: checked
-   - Server Port: `4455` (or any free port you prefer)
-   - Enable Authentication: checked
-   - Server Password: `Almave7` (or a secure password — must match `config/system.yaml`)
+  - Enable WebSocket server: checked
+  - Server Port: `4455` (or any free port you prefer)
+  - Enable Authentication: checked
+  - Server Password: set a secure password — do NOT commit it to the repository. Use an environment variable called `OBS_PASSWORD` locally and a GitHub Actions repository secret named `OBS_PASSWORD` for CI.
 4. For legacy/v4 compatibility (compat server): either disable it, or set a different port so it does not conflict with the main server.
 5. Click Apply, then restart OBS.
 
@@ -39,18 +39,24 @@ New-NetFirewallRule -DisplayName "OBS WebSocket 4455" -Direction Inbound -Action
 ```
 
 ## Project config (`config/system.yaml`)
-Make sure the YAML contains the obs_websocket block that matches OBS settings:
+The repo intentionally does not store secrets. Example config (use `config/system.yaml.sample` as a template):
 
 ```yaml
 obs_websocket:
   enabled: true
   host: 172.25.224.1   # set to OBS machine IP or localhost if OBS runs locally
   port: 4455
-  password: "Almave7"
+  password: ""   # leave blank — the runtime will read OBS_PASSWORD from environment
   source: System Status
 ```
 
-Place the file at `Projects/almave7_system/config/system.yaml`.
+To run locally, export the password as an environment variable:
+
+```bash
+export OBS_PASSWORD="your-secret-password"
+```
+
+For CI, add a repository secret named `OBS_PASSWORD` in GitHub (Settings → Secrets → Actions) and reference it in workflows as `${{ secrets.OBS_PASSWORD }}` if you add steps requiring a live OBS connection.
 
 ## Linux — Verify Reachability
 From the control machine run:
