@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python: [3.10, 3.12]
+        python: [3.10, 3.11, 3.12]
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python
@@ -23,8 +23,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install pytest flake8 black
       - name: Run tests
-        run: pytest -q
+        run: |
+          pytest -q
       - name: Run linters
         run: |
+          # don't fail the workflow for formatting/linting issues in initial runs
           flake8 src tests || true
           black --check . || true
