@@ -1,0 +1,19 @@
+# sample system configuration for almave7_system
+
+logging:
+  level: INFO
+  file: logs/session.log
+
+language:
+  default: en
+  supported: [en, es, fr, de, pt]
+
+# Optional OBS WebSocket settings. Replace <OBS_PASSWORD> with your secret or
+# instruct your runtime to set the OBS_PASSWORD environment variable.
+obs_websocket:
+  enabled: true
+  host: 172.25.224.1
+  port: 4455
+  password: "<OBS_PASSWORD>"
+  # text source name in OBS to update when using websocket
+  source: System Status

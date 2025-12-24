@@ -1,0 +1,21 @@
+# system configuration for almave7_system
+
+logging:
+  level: INFO
+  file: logs/session.log
+
+language:
+  default: en
+  supported: [en, es, fr, de, pt]
+
+# Optional OBS WebSocket settings. Set `enabled: true` and install `obs-websocket-py`
+# to allow direct updates to OBS sources instead of file-based writes.
+obs_websocket:
+  enabled: true
+  host: 172.25.224.1
+  port: 4455
+  # For security, the real password is not stored here.
+  # Set the OBS password in your environment as OBS_PASSWORD or leave blank.
+  password: ""  # DO NOT COMMIT secrets — use env var OBS_PASSWORD
+  # text source name in OBS to update when using websocket
+  source: System Status
