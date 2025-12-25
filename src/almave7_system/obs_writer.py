@@ -9,6 +9,7 @@ try:
     import yaml
 except Exception:
     yaml = None
+import os
 
 try:
     from obswebsocket import obsws, requests as obs_requests  # type: ignore
@@ -68,12 +69,14 @@ def _ensure_ws_connected() -> bool:
         return False
     if obsws is None:
         return False
-    if _WS_CLIENT is not None:
-        return True
-        try:
-            # prefer explicit config password, fall back to environment variable OBS_PASSWORD
-            password = _WS_CONFIG.get("password") or os.environ.get("OBS_PASSWORD", "")
-            _WS_CLIENT = obsws(_WS_CONFIG["host"], int(_WS_CONFIG["port"]), password)
+    # If already connected, assume healthy
+    try:
+        if _WS_CLIENT is not None:
+            return True
+
+        # prefer explicit config password, fall back to environment variable OBS_PASSWORD
+        password = _WS_CONFIG.get("password") or os.environ.get("OBS_PASSWORD", "")
+        _WS_CLIENT = obsws(_WS_CONFIG["host"], int(_WS_CONFIG["port"]), password)
         _WS_CLIENT.connect()
         return True
     except Exception:
